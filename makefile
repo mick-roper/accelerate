@@ -11,7 +11,10 @@ install:
 test:
 	cd app && go test ./...
 
-build-all: build-macos build-windows
+build-all: build-linux build-macos build-windows
+
+build-linux:
+	GOOS=linux GOARCH=amd64 go build -o bin/linux/app ./app/main.go
 
 build-macos:
 	GOOS=darwin GOARCH=amd64 go build -o bin/darwin/app ./app/main.go
