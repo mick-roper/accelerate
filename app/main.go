@@ -17,16 +17,14 @@ var acceleration = flag.Float64("acceleration", -1, "the amount of linear accele
 var logLevel = flag.String("log-level", "info", "sets the log level")
 var withDeceleration = flag.Bool("with-deceleration", false, "(true) to include deceleration in the plan")
 
-var logger iLogger
-var calc func(float64, float64, float64, float64) (float64, float64)
+var logger iLogger = &infoLogger{}
+var calc func(float64, float64, float64, float64) (float64, float64) = calculateTransit
 
 func main() {
 	flag.Parse()
 
 	if *logLevel == "debug" {
 		logger = &debugLogger{}
-	} else {
-		logger = &infoLogger{}
 	}
 
 	if *targetDistance < 0 {
@@ -39,8 +37,6 @@ func main() {
 
 	if *withDeceleration {
 		calc = calculateTransitWithDeceleration
-	} else {
-		calc = calculateTransit
 	}
 
 	var seconds float64 = 0
@@ -66,12 +62,10 @@ func calculateTransit(speed, travelled, acceleration, targetDistance float64) (f
 
 func calculateTransitWithDeceleration(speed, travelled, acceleration, targetDistance float64) (float64, float64) {
 	var newSpeed float64
-	var newAcc float64
+	var newAcc float64 = acceleration
 	
 	if acceleration > targetDistance - travelled {
 		newAcc = (targetDistance - travelled) / 2
-	} else {
-		newAcc = acceleration
 	}
 
 	if travelled >= targetDistance*0.50 {
