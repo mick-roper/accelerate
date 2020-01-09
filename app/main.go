@@ -39,7 +39,7 @@ func main() {
 	var travelled float64 = 0
 	var speed float64 = 0
 
-	logger.Debug("starting iterations...")
+	logger.Info("starting iterations...")
 
 	for travelled < *targetDistance {
 		seconds++
