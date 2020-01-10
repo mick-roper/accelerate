@@ -28,11 +28,11 @@ func main() {
 	}
 
 	if *targetDistance < 0 {
-		log.Fatal("target is invalid")
+		logger.Fatal("distance is invalid")
 	}
 
 	if *acceleration < 0 {
-		log.Fatal("acceleration is invalid")
+		logger.Fatal("acceleration is invalid")
 	}
 
 	if *withDeceleration {
@@ -69,7 +69,7 @@ func calculateTransitWithDeceleration(speed, travelled, acceleration, targetDist
 	}
 
 	if travelled >= targetDistance*0.50 {
-		newAcc = newAcc * -1
+		newAcc = -newAcc
 	}
 
 	newSpeed = speed + newAcc
